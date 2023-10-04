@@ -18,30 +18,22 @@ class Drawing {
      * @param format file format
      * @param filename file name
      */
-    public draw(format: string, filename: string): void {
-        if (format === "jpeg") {
-			// TODO: Do you notice code duplication here?
-            try {
-                let writer: Writer = new JPEGWriter(filename + ".png")
-                for (let shape of this.shapes) {
-					// TODO: What is the issue of the behavior here?
-                    let lines: Line[] = shape.toLines();
-                    shape.draw(writer, lines);
-                }
-            } catch (e) {
-                console.log(e);
+    public draw(format: string, filename: string): void {        
+        let writer = null; 
+        try { 
+            if (format === "jpeg") {
+                writer = new JPEGWriter(filename + ".png")  
             }
-        }
-        else if (format === "png") {
-            try {
-                let writer: Writer = new PNGWriter(filename + ".png")
-                for (let shape of this.shapes) {
-                    let lines: Line[] = shape.toLines();
-                    shape.draw(writer, lines);
-                }
-            } catch (e) {
-                console.log(e);
+            else if (format === "png") {
+                writer = new PNGWriter(filename + ".png") 
             }
+            for (let shape of this.shapes) {
+                // TODO: What is the issue of the behavior here?
+                let lines: Line[] = shape.toLines();
+                if (writer != null) shape.draw(writer, lines);
+            }
+        } catch (e) {
+            console.log(e);
         }
     }
 }

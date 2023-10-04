@@ -1,5 +1,6 @@
 import { Road } from "./road";
-
+import { FroggerID } from "./froggerid";
+import { Records } from "./record";
 /**
  * Refactor Task 1, 2: Frogger
  *
@@ -12,25 +13,21 @@ class Frogger {
   private position: number;
 
   // Field for Task 2. Anything to add?
+  private id: FroggerID;
   private records: Records;
-  private firstName: string; 
-  private lastName: string; 
-  private phoneNumber: string;
-  private zipCode: string;
-  private state: string;
-  private gender: string;
   
   constructor(road: Road, position: number, records: Records, firstName: string, 
     lastName: string, phoneNumber: string, zipCode: string, state: string, gender: string) {
+      this.id = new FroggerID(
+                  firstName,
+                  lastName,
+                  phoneNumber, 
+                  zipCode,
+                  state,
+                  gender);
       this.road = road;
       this.position = position;
       this.records = records;
-      this.firstName = firstName;
-      this.lastName = lastName;
-      this.phoneNumber = phoneNumber;
-      this.zipCode = zipCode;
-      this.state = state;
-      this.gender = gender;
   }
 
 	/**
@@ -48,15 +45,16 @@ class Frogger {
   }
 
 	// TODO: Do you notice any issues here?
+  
+  
+  // Frogger is a god class and Road class is a middle man, since it delegates checking for occupied for any given position to the frogger class.
   public isOccupied(position: number): boolean {
-      let occupied: boolean[] = this.road.getOccupied();
-      return occupied[position];
+      return this.road.getOccupied(position);
   }
 
   public isValid(position: number): boolean {
       if (position < 0) return false;
-      let occupied: boolean[] = this.road.getOccupied();
-      return position < occupied.length;
+      return position < this.road.getLength();
   }
 
   /**
@@ -66,7 +64,9 @@ class Frogger {
    */
   public recordMyself(): boolean {
     // This is an annoying call...
-    let success: boolean = this.records.addRecord(this.firstName, this.lastName, this.phoneNumber, this.zipCode, this.state, this.gender)
+    let success: boolean = this.records.addRecord(this.id)
     return success
   }
+
+  // long parameter list 
 }

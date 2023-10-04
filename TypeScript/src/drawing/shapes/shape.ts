@@ -12,7 +12,7 @@ interface Shape {
 	
     toLines(): Line[];
 
-    draw(writer: Writer, lines: Line[]): void;
+    draw(writer: Writer): void;
 }
 
 abstract class AbstractShape implements Shape {
@@ -27,9 +27,9 @@ abstract class AbstractShape implements Shape {
 	/**
      * Draws lines to file.
      */
-	public draw(writer: Writer, lines: Line[]): void {
+	public draw(writer: Writer): void {
 		try {
-			for (let line of lines) {
+			for (let line of this.toLines()) {
 				// TODO: what is the purpose of the code there?
 				if (writer instanceof JPEGWriter) {
 					writer.write(line.toJPEG());

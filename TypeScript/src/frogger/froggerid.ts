@@ -25,3 +25,4 @@ class FroggerID {
 			&& this.zipCode === other.zipCode && this.state === other.state && this.gender === other.gender;
 	}
 }
+export {FroggerID}
